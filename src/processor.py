@@ -1,0 +1,11 @@
+
+# Converting to Gray-scale
+def toGrayscale(image):
+    return image.convert("L")
+
+# Resizing the image for terminal
+def resize(image, new_width=100):
+    width, height = image.size
+    ratio = height/width
+    new_height = int(new_width * ratio * 0.5)
+    return image.resize((new_width, new_height))
