@@ -3,7 +3,7 @@ from processor import resize
 from ascii_mapper import map_pixels_to_ascii
 from renderer import format_ascii, render_color_ascii
 
-IMAGE_PATH = "../assets/Image2.jpg"
+IMAGE_PATH = "../assets/Image3.jpg"
 
 def run_grayscale():
     image = load_image(IMAGE_PATH)
@@ -14,6 +14,8 @@ def run_grayscale():
     ascii_img = format_ascii(ascii_str, image.width)
 
     print(ascii_img)
+    with open("../outputs/output.txt", "w") as f:
+        f.write(ascii_img)
 
 
 def run_color():
