@@ -1,5 +1,5 @@
 assets/
-output/
+outputs/
 __pycache__/
 *.pyc
 .env
