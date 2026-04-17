@@ -25,3 +25,32 @@ def render_color_ascii(image):
             print(f"\033[38;2;{r};{g};{b}m{char}\033[0m", end="")
 
         print()
+
+def generate_ascii(image, colored=False):
+    pixels = list(image.getdata())
+    width = image.width
+
+    ASCII_CHARS = "@%#*+=-:. "
+    ascii_img = ""
+
+    for i in range(0, len(pixels), width):
+        row = pixels[i:i + width]
+
+        for pixel in row:
+            if colored:
+                r, g, b = pixel
+                gray = int(0.299*r + 0.587*g + 0.114*b)
+            else:
+                gray = pixel  # already grayscale
+
+            index = int(gray / 255 * (len(ASCII_CHARS) - 1))
+            char = ASCII_CHARS[index]
+
+            if colored:
+                ascii_img += f"\033[38;2;{r};{g};{b}m{char}\033[0m"
+            else:
+                ascii_img += char
+
+        ascii_img += "\n"
+
+    return ascii_img
