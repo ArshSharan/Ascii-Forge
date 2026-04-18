@@ -1,8 +1,7 @@
 import argparse
-from image_loader import load_image
-from processor import resize
-from renderer import generate_ascii
-
+from src.image_loader import load_image
+from src.processor import resize
+from src.renderer import generate_ascii
 
 def main():
     parser = argparse.ArgumentParser(
