@@ -10,8 +10,9 @@ The project focuses on bridging image processing concepts with terminal renderin
 
 - Convert images to ASCII art directly in the terminal
 - Grayscale and color rendering modes
+- **HTML export** — save colored ASCII art as a self-contained `.html` file, viewable in any browser
 - Adjustable output width for resolution control
-- File output support
+- File output support (plain text / ANSI)
 - Modular and extensible architecture
 - CLI-based usage with argument parsing
 
@@ -37,6 +38,9 @@ The system follows a structured pipeline:
    - Grayscale mode outputs plain ASCII text
    - Color mode uses ANSI escape codes to preserve pixel color in terminal output
 
+6. **HTML Export (optional)**
+   Each character is wrapped in a `<span style="color:rgb(...)">` tag, producing a pixel-accurate, browser-renderable HTML file with no external dependencies.
+
 ---
 
 ## Project Structure
@@ -50,10 +54,11 @@ ascii-forge/
 │   ├── image_loader.py
 │   ├── processor.py
 │   ├── ascii_mapper.py
-│   └── renderer.py
+│   ├── renderer.py
+│   └── html_exporter.py    # HTML export module (new)
 │
 ├── assets/            # Local test images (ignored by Git)
-├── output/            # Generated outputs (ignored by Git)
+├── outputs/           # Generated outputs (ignored by Git)
 │
 ├── setup.py
 ├── requirements.txt
@@ -119,22 +124,35 @@ Save output to file:
 ascii-forge path/to/image.jpg --output output.txt
 ```
 
-Full example:
+Export as HTML (browser-viewable, colored):
 
 ```bash
-ascii-forge path/to/image.jpg --mode color --width 120 --output output.txt
+ascii-forge path/to/image.jpg --html outputs/art.html
+```
+
+HTML export with custom width:
+
+```bash
+ascii-forge path/to/image.jpg --width 150 --html outputs/art.html
+```
+
+Full example (terminal render + HTML export simultaneously):
+
+```bash
+ascii-forge path/to/image.jpg --mode color --width 120 --output output.txt --html outputs/art.html
 ```
 
 ---
 
 ## Command-Line Arguments
 
-| Argument   | Description                                      | Default  |
-|------------|--------------------------------------------------|----------|
-| `image`    | Path to input image                              | Required |
-| `--mode`   | Rendering mode: `gray` or `color`                | `gray`   |
-| `--width`  | Output width in characters                       | `100`    |
-| `--output` | File path to save ASCII output                   | None     |
+| Argument   | Description                                                                 | Default  |
+|------------|-----------------------------------------------------------------------------|----------|
+| `image`    | Path to input image                                                         | Required |
+| `--mode`   | Rendering mode: `gray` or `color`                                           | `gray`   |
+| `--width`  | Output width in characters                                                  | `100`    |
+| `--output` | File path to save plain-text / ANSI output                                  | None     |
+| `--html`   | File path to save a self-contained HTML export (e.g. `outputs/art.html`)   | None     |
 
 ---
 
@@ -145,6 +163,14 @@ Color mode uses ANSI escape sequences. As a result:
 - Output files will contain ANSI codes
 - Standard text editors may not render colors
 - Terminal environments that support ANSI will display colors correctly
+
+## Notes on HTML Export
+
+- The `--html` flag produces a **self-contained HTML file** — no internet connection or external assets required
+- Colors are embedded as inline `rgb()` styles, so the output is fully portable
+- The file can be opened in any modern browser
+- Parent output directories are created automatically if they don't exist
+- HTML export is independent of `--mode`; it always uses the full-color pixel data
 
 ---
 
@@ -158,11 +184,11 @@ Color mode uses ANSI escape sequences. As a result:
 
 ## Future Enhancements
 
-- HTML export for browser-based rendering
-- Edge detection mode for sharper ASCII output
+- Edge detection mode for sharper, outline-style ASCII output
 - Real-time video and webcam ASCII rendering
 - Packaging and publishing to PyPI
 - Performance optimizations using NumPy vectorization
+- ASCII → PNG/SVG image rendering
 
 ---
 

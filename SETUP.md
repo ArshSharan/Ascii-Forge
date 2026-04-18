@@ -104,6 +104,28 @@ ascii-forge assets/image.jpg --mode color --width 120 --output output.txt
 
 ---
 
+### Export as HTML
+
+Generate a self-contained HTML file viewable in any browser:
+
+```bash
+ascii-forge assets/image.jpg --html outputs/art.html
+```
+
+With a custom width:
+
+```bash
+ascii-forge assets/image.jpg --width 150 --html outputs/art.html
+```
+
+Combine HTML export with terminal output in one command:
+
+```bash
+ascii-forge assets/image.jpg --mode color --width 120 --output output.txt --html outputs/art.html
+```
+
+---
+
 ## 7. Understanding Output
 
 ### Grayscale Mode
@@ -114,6 +136,13 @@ ascii-forge assets/image.jpg --mode color --width 120 --output output.txt
 - Uses ANSI escape sequences
 - Displays correctly only in compatible terminals
 - Output files will not show colors in basic editors
+
+### HTML Export (`--html`)
+- Generates a **self-contained `.html` file** with inline `rgb()` color styles
+- No internet connection or external dependencies required
+- Open the file in any modern browser (Chrome, Firefox, Edge, etc.)
+- Output directories (e.g. `outputs/`) are created automatically if missing
+- HTML output is always full-color regardless of `--mode`
 
 ---
 
@@ -181,6 +210,6 @@ You have now:
 
 - Installed ASCII Forge as a CLI tool
 - Learned how to run it with different configurations
-- Understood output behavior and limitations
+- Understood output behavior across grayscale, color, and HTML modes
 
-This setup enables further extensions such as HTML export, edge detection, and real-time rendering.
+This setup enables further extensions such as edge detection, real-time rendering, and PyPI distribution.
