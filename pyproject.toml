@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ascii-forge"
+name = "ascii-forger"
 version = "0.1.0"
 description = "Convert images into high-quality ASCII art — terminal, color, HTML export, and invert mode."
 readme = "README.md"
