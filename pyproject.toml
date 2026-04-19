@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Convert images into high-quality ASCII art — terminal, color, HTML export, and invert mode."
 readme = "README.md"
 requires-python = ">=3.8"
-license = { text = "MIT" }
+license = "MIT"
 authors = [
     { name = "Arsh Sharan" }
 ]
@@ -16,13 +16,6 @@ keywords = ["ascii", "art", "terminal", "cli", "image", "image-processing", "asc
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
     "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: End Users/Desktop",
