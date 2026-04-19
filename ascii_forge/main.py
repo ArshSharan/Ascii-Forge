@@ -8,17 +8,17 @@ from ascii_forge.html_exporter import save_html
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="ascii-forge",
+        prog="ascii-forger",
         description="""\
-=== ASCII Forge ===
+=== ASCII Forger ===
 Convert images into high-quality ASCII art directly in your terminal.
 
 Examples:
-  ascii-forge image.jpg
-  ascii-forge image.jpg --mode color
-  ascii-forge image.jpg --width 150 --output out.txt
-  ascii-forge image.jpg --mode color --html outputs/art.html
-  ascii-forge image.jpg --invert --html outputs/inverted.html
+  ascii-forger image.jpg
+  ascii-forger image.jpg --mode color
+  ascii-forger image.jpg --width 150 --output out.txt
+  ascii-forger image.jpg --mode color --html outputs/art.html
+  ascii-forger image.jpg --invert --html outputs/inverted.html
         """,
         formatter_class=argparse.RawTextHelpFormatter
     )

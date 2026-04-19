@@ -1,6 +1,6 @@
 # Setup and Usage Guide
 
-This document provides step-by-step instructions to install and use ASCII Forge as a command-line tool.
+This document provides step-by-step instructions to install and use ASCII Forger as a command-line tool.
 
 ---
 
@@ -48,13 +48,19 @@ pip install -r requirements.txt
 
 ## 5. Install the CLI Tool
 
-Install the project in editable mode:
+### Option A — from PyPI *(recommended for end users)*
+
+```bash
+pip install ascii-forger
+```
+
+### Option B — from source *(for development)*
 
 ```bash
 pip install -e .
 ```
 
-This registers the `ascii-forge` command using `pyproject.toml` (PEP 517 compliant).
+This registers the `ascii-forger` command using `pyproject.toml` (PEP 517 compliant).
 
 ---
 
@@ -63,7 +69,7 @@ This registers the `ascii-forge` command using `pyproject.toml` (PEP 517 complia
 ### Basic Usage
 
 ```bash
-ascii-forge assets/image.jpg
+ascii-forger assets/image.jpg
 ```
 
 ---
@@ -71,7 +77,7 @@ ascii-forge assets/image.jpg
 ### Color Mode
 
 ```bash
-ascii-forge assets/image.jpg --mode color
+ascii-forger assets/image.jpg --mode color
 ```
 
 ---
@@ -79,7 +85,7 @@ ascii-forge assets/image.jpg --mode color
 ### Custom Width
 
 ```bash
-ascii-forge assets/image.jpg --width 150
+ascii-forger assets/image.jpg --width 150
 ```
 
 ---
@@ -87,7 +93,7 @@ ascii-forge assets/image.jpg --width 150
 ### Save Output to File
 
 ```bash
-ascii-forge assets/image.jpg --output output.txt
+ascii-forger assets/image.jpg --output output.txt
 ```
 
 ---
@@ -95,7 +101,7 @@ ascii-forge assets/image.jpg --output output.txt
 ### Full Command Example
 
 ```bash
-ascii-forge assets/image.jpg --mode color --width 120 --output output.txt
+ascii-forger assets/image.jpg --mode color --width 120 --output output.txt
 ```
 
 ---
@@ -105,19 +111,19 @@ ascii-forge assets/image.jpg --mode color --width 120 --output output.txt
 Generate a self-contained HTML file viewable in any browser:
 
 ```bash
-ascii-forge assets/image.jpg --html outputs/art.html
+ascii-forger assets/image.jpg --html outputs/art.html
 ```
 
 With a custom width:
 
 ```bash
-ascii-forge assets/image.jpg --width 150 --html outputs/art.html
+ascii-forger assets/image.jpg --width 150 --html outputs/art.html
 ```
 
 Combine HTML export with terminal output in one command:
 
 ```bash
-ascii-forge assets/image.jpg --mode color --width 120 --output output.txt --html outputs/art.html
+ascii-forger assets/image.jpg --mode color --width 120 --output output.txt --html outputs/art.html
 ```
 
 ---
@@ -127,19 +133,19 @@ ascii-forge assets/image.jpg --mode color --width 120 --output output.txt --html
 Flip the character density for clearer output on light-background subjects:
 
 ```bash
-ascii-forge assets/image.jpg --invert
+ascii-forger assets/image.jpg --invert
 ```
 
 Combine with HTML export:
 
 ```bash
-ascii-forge assets/image.jpg --invert --html outputs/inverted.html
+ascii-forger assets/image.jpg --invert --html outputs/inverted.html
 ```
 
 Combine with color mode and HTML:
 
 ```bash
-ascii-forge assets/image.jpg --invert --mode color --html outputs/inverted.html
+ascii-forger assets/image.jpg --invert --mode color --html outputs/inverted.html
 ```
 
 ---
@@ -175,7 +181,7 @@ ascii-forge assets/image.jpg --invert --mode color --html outputs/inverted.html
 
 ### Command Not Found
 
-If `ascii-forge` is not recognized:
+If `ascii-forger` is not recognized:
 
 - Ensure virtual environment is activated
 - Re-run:
@@ -191,13 +197,13 @@ pip install -e .
 Ensure the image path is correct relative to your current directory:
 
 ```bash
-ascii-forge assets/image.jpg
+ascii-forger assets/image.jpg
 ```
 
 Avoid incorrect paths like:
 
 ```bash
-ascii-forge ../assets/image.jpg
+ascii-forger ../assets/image.jpg
 ```
 
 ---
@@ -224,7 +230,7 @@ pip install -e .
 ## 10. Uninstalling
 
 ```bash
-pip uninstall ascii-forge
+pip uninstall ascii-forger
 ```
 
 ---
@@ -233,7 +239,7 @@ pip uninstall ascii-forge
 
 You have now:
 
-- Installed ASCII Forge as a CLI tool
+- Installed ASCII Forger as a CLI tool
 - Learned how to run it with different configurations
 - Understood output behavior across grayscale, color, and HTML modes
 

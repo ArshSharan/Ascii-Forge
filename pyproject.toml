@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ascii-forger"
-version = "0.1.0"
+version = "0.1.1"
 description = "Convert images into high-quality ASCII art — terminal, color, HTML export, and invert mode."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -33,7 +33,7 @@ dev = [
 ]
 
 [project.scripts]
-ascii-forge = "ascii_forge.main:main"
+ascii-forger = "ascii_forge.main:main"
 
 [project.urls]
 Homepage   = "https://github.com/ArshSharan/Ascii-Forge"

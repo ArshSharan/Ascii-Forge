@@ -1,6 +1,10 @@
-# ASCII Forge
+# ASCII Forger
 
-ASCII Forge is a terminal-based ASCII rendering engine that converts images into high-fidelity ASCII art. It supports both grayscale and color rendering and is designed as a modular, extensible command-line tool.
+[![PyPI version](https://img.shields.io/pypi/v/ascii-forger)](https://pypi.org/project/ascii-forger/)
+[![Python 3.8+](https://img.shields.io/pypi/pyversions/ascii-forger)](https://pypi.org/project/ascii-forger/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+ASCII Forger is a terminal-based ASCII rendering engine that converts images into high-fidelity ASCII art. It supports both grayscale and color rendering and is designed as a modular, extensible command-line tool.
 
 The project focuses on bridging image processing concepts with terminal rendering, providing a practical implementation of pixel-to-character mapping, perceptual brightness scaling, and ANSI-based color encoding.
 
@@ -69,7 +73,19 @@ ascii-forge/
 
 ---
 
-## Installation (Development Mode)
+## Installation
+
+### From PyPI *(recommended)*
+
+```bash
+pip install ascii-forger
+```
+
+This installs the `ascii-forger` command globally (or into your active environment).
+
+---
+
+### From Source *(for development)*
 
 Clone the repository:
 
@@ -85,19 +101,13 @@ python -m venv .venv
 .venv\Scripts\activate
 ```
 
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Install the package in editable mode:
+Install in editable mode:
 
 ```bash
 pip install -e .
 ```
 
-> The project uses `pyproject.toml` for packaging (PEP 517/518 compliant, PyPI-ready).
+> Uses `pyproject.toml` for packaging (PEP 517/518 compliant).
 
 ---
 
@@ -106,55 +116,55 @@ pip install -e .
 Basic usage:
 
 ```bash
-ascii-forge path/to/image.jpg
+ascii-forger path/to/image.jpg
 ```
 
 Color rendering:
 
 ```bash
-ascii-forge path/to/image.jpg --mode color
+ascii-forger path/to/image.jpg --mode color
 ```
 
 Custom width:
 
 ```bash
-ascii-forge path/to/image.jpg --width 150
+ascii-forger path/to/image.jpg --width 150
 ```
 
 Save output to file:
 
 ```bash
-ascii-forge path/to/image.jpg --output output.txt
+ascii-forger path/to/image.jpg --output output.txt
 ```
 
 Export as HTML (browser-viewable, colored):
 
 ```bash
-ascii-forge path/to/image.jpg --html outputs/art.html
+ascii-forger path/to/image.jpg --html outputs/art.html
 ```
 
 HTML export with custom width:
 
 ```bash
-ascii-forge path/to/image.jpg --width 150 --html outputs/art.html
+ascii-forger path/to/image.jpg --width 150 --html outputs/art.html
 ```
 
 Full example (terminal render + HTML export simultaneously):
 
 ```bash
-ascii-forge path/to/image.jpg --mode color --width 120 --output output.txt --html outputs/art.html
+ascii-forger path/to/image.jpg --mode color --width 120 --output output.txt --html outputs/art.html
 ```
 
 Invert character density (great for light-background portraits):
 
 ```bash
-ascii-forge path/to/image.jpg --invert
+ascii-forger path/to/image.jpg --invert
 ```
 
 Invert with HTML export:
 
 ```bash
-ascii-forge path/to/image.jpg --invert --html outputs/inverted.html
+ascii-forger path/to/image.jpg --invert --html outputs/inverted.html
 ```
 
 ---
@@ -202,9 +212,7 @@ Color mode uses ANSI escape sequences. As a result:
 
 ## Dependencies
 
-- [Pillow](https://pypi.org/project/Pillow/)
-- [NumPy](https://numpy.org/)
-- OpenCV *(optional, for future extensions)*
+- [Pillow](https://pypi.org/project/Pillow/) — image loading and processing
 
 ---
 
@@ -212,7 +220,6 @@ Color mode uses ANSI escape sequences. As a result:
 
 - Edge detection mode for sharper, outline-style ASCII output
 - Real-time video and webcam ASCII rendering
-- Packaging and publishing to PyPI
 - Performance optimizations using NumPy vectorization
 - ASCII → PNG/SVG image rendering
 
