@@ -10,7 +10,7 @@ def _pixel_to_char(gray: int) -> str:
     return ASCII_CHARS[index]
 
 
-def generate_html(image, title: str = "ASCII Forge Output") -> str:
+def generate_html(image, title: str = "ASCII Forge Output", invert: bool = False) -> str:
     """
     Convert a PIL image into a self-contained HTML string.
 
@@ -21,6 +21,9 @@ def generate_html(image, title: str = "ASCII Forge Output") -> str:
     Args:
         image: PIL Image object (RGB mode).
         title: Title shown in the browser tab.
+        invert: When True, flips the grayscale value used for character
+                selection (dense chars on bright areas, sparse on dark).
+                Original pixel colors are preserved — no color distortion.
 
     Returns:
         A complete HTML string ready to be written to a .html file.
@@ -42,6 +45,11 @@ def generate_html(image, title: str = "ASCII Forge Output") -> str:
                 r = g = b = pixel
 
             gray = int(0.299 * r + 0.587 * g + 0.114 * b)
+
+            # Invert char density mapping only — colors stay original
+            if invert:
+                gray = 255 - gray
+
             char = _pixel_to_char(gray)
 
             # Escape the character for safe HTML embedding
@@ -140,7 +148,7 @@ def generate_html(image, title: str = "ASCII Forge Output") -> str:
     return html_doc
 
 
-def save_html(image, output_path: str, title: str = "ASCII Forge Output") -> None:
+def save_html(image, output_path: str, title: str = "ASCII Forge Output", invert: bool = False) -> None:
     """
     Generate and write an HTML ASCII art file to disk.
 
@@ -148,7 +156,8 @@ def save_html(image, output_path: str, title: str = "ASCII Forge Output") -> Non
         image: PIL Image object (RGB mode).
         output_path: Destination file path (e.g., 'output/art.html').
         title: Optional page title (defaults to 'ASCII Forge Output').
+        invert: When True, inverts the character density mapping.
     """
-    html_content = generate_html(image, title=title)
+    html_content = generate_html(image, title=title, invert=invert)
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html_content)

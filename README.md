@@ -11,6 +11,7 @@ The project focuses on bridging image processing concepts with terminal renderin
 - Convert images to ASCII art directly in the terminal
 - Grayscale and color rendering modes
 - **HTML export** — save colored ASCII art as a self-contained `.html` file, viewable in any browser
+- **Invert mode** — flip character density for clearer output on light-background subjects
 - Adjustable output width for resolution control
 - File output support (plain text / ANSI)
 - Modular and extensible architecture
@@ -142,17 +143,30 @@ Full example (terminal render + HTML export simultaneously):
 ascii-forge path/to/image.jpg --mode color --width 120 --output output.txt --html outputs/art.html
 ```
 
+Invert character density (great for light-background portraits):
+
+```bash
+ascii-forge path/to/image.jpg --invert
+```
+
+Invert with HTML export:
+
+```bash
+ascii-forge path/to/image.jpg --invert --html outputs/inverted.html
+```
+
 ---
 
 ## Command-Line Arguments
 
-| Argument   | Description                                                                 | Default  |
-|------------|-----------------------------------------------------------------------------|----------|
-| `image`    | Path to input image                                                         | Required |
-| `--mode`   | Rendering mode: `gray` or `color`                                           | `gray`   |
-| `--width`  | Output width in characters                                                  | `100`    |
-| `--output` | File path to save plain-text / ANSI output                                  | None     |
-| `--html`   | File path to save a self-contained HTML export (e.g. `outputs/art.html`)   | None     |
+| Argument   | Description                                                                            | Default  |
+|------------|----------------------------------------------------------------------------------------|----------|
+| `image`    | Path to input image                                                                    | Required |
+| `--mode`   | Rendering mode: `gray` or `color`                                                      | `gray`   |
+| `--width`  | Output width in characters                                                             | `100`    |
+| `--output` | File path to save plain-text / ANSI output                                             | None     |
+| `--html`   | File path to save a self-contained HTML export (e.g. `outputs/art.html`)              | None     |
+| `--invert` | Flip character density mapping — dense chars on bright areas, sparse on dark areas   | Off      |
 
 ---
 
@@ -171,6 +185,16 @@ Color mode uses ANSI escape sequences. As a result:
 - The file can be opened in any modern browser
 - Parent output directories are created automatically if they don't exist
 - HTML export is independent of `--mode`; it always uses the full-color pixel data
+
+## Notes on Invert Mode
+
+`--invert` flips the **character density mapping** only — it does **not** alter pixel colors:
+
+- Without invert: dark pixel → dense char (`@`), bright pixel → sparse char (` `)
+- With invert: bright pixel → dense char (`@`), dark pixel → sparse char (` `)
+- This makes light-background subjects (e.g. portraits with white backgrounds) appear much more defined
+- Works with all modes: `gray`, `color`, and `--html`
+- Pixel colors in color/HTML output are always the original, unmodified values
 
 ---
 

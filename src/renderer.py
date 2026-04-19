@@ -26,7 +26,7 @@ def render_color_ascii(image):
 
         print()
 
-def generate_ascii(image, colored=False):
+def generate_ascii(image, colored=False, invert=False):
     pixels = list(image.getdata())
     width = image.width
 
@@ -43,6 +43,10 @@ def generate_ascii(image, colored=False):
             else:
                 gray = pixel  # already grayscale
 
+            # Invert only the brightness used for char selection, not the display color
+            if invert:
+                gray = 255 - gray
+
             index = int(gray / 255 * (len(ASCII_CHARS) - 1))
             char = ASCII_CHARS[index]
 
@@ -53,4 +57,4 @@ def generate_ascii(image, colored=False):
 
         ascii_img += "\n"
 
-    return ascii_img
+    return ascii_img

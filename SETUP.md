@@ -126,6 +126,28 @@ ascii-forge assets/image.jpg --mode color --width 120 --output output.txt --html
 
 ---
 
+### Invert Mode
+
+Flip the character density for clearer output on light-background subjects:
+
+```bash
+ascii-forge assets/image.jpg --invert
+```
+
+Combine with HTML export:
+
+```bash
+ascii-forge assets/image.jpg --invert --html outputs/inverted.html
+```
+
+Combine with color mode and HTML:
+
+```bash
+ascii-forge assets/image.jpg --invert --mode color --html outputs/inverted.html
+```
+
+---
+
 ## 7. Understanding Output
 
 ### Grayscale Mode
@@ -143,6 +165,13 @@ ascii-forge assets/image.jpg --mode color --width 120 --output output.txt --html
 - Open the file in any modern browser (Chrome, Firefox, Edge, etc.)
 - Output directories (e.g. `outputs/`) are created automatically if missing
 - HTML output is always full-color regardless of `--mode`
+
+### Invert Mode (`--invert`)
+- Flips the **character density mapping** only — pixel colors are **not** altered
+- Default: dark pixel → dense char (`@`), bright pixel → sparse char (` `)
+- Inverted: bright pixel → dense char (`@`), dark pixel → sparse char (` `)
+- Best used when the subject is darker than the background (e.g. portrait on white)
+- Compatible with all modes: `gray`, `color`, and `--html`
 
 ---
 

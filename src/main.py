@@ -47,6 +47,13 @@ Examples:
     )
 
     parser.add_argument(
+        "--invert",
+        action="store_true",
+        help="Invert pixel colors before rendering (photo-negative effect).\n"
+             "Improves contrast on light-background subjects. Works with all modes."
+    )
+
+    parser.add_argument(
         "--html",
         metavar="FILE",
         help="Export colored ASCII art as a self-contained HTML file\n"
@@ -72,7 +79,7 @@ Examples:
         image_name = os.path.basename(args.image)
         title = f"ASCII Forge — {image_name}"
 
-        save_html(rgb_image, args.html, title=title)
+        save_html(rgb_image, args.html, title=title, invert=args.invert)
         print(f"HTML export saved to: {args.html}")
 
         # If the user only asked for HTML, we're done — skip terminal render
@@ -82,9 +89,9 @@ Examples:
     # ── Terminal render ────────────────────────────────────────────────────────
     if args.mode == "gray":
         image = image.convert("L")
-        ascii_img = generate_ascii(image, colored=False)
+        ascii_img = generate_ascii(image, colored=False, invert=args.invert)
     else:
-        ascii_img = generate_ascii(image, colored=True)
+        ascii_img = generate_ascii(image, colored=True, invert=args.invert)
 
     print(ascii_img)
 
