@@ -48,13 +48,27 @@ pip install -r requirements.txt
 
 ## 5. Install the CLI Tool
 
-### Option A — from PyPI *(recommended for end users)*
+### Option A — pipx *(recommended, works globally on any terminal)*
+
+[pipx](https://pipx.pypa.io) automatically manages PATH for CLI tools:
+
+```bash
+pip install pipx
+pipx ensurepath
+pipx install ascii-forger
+```
+
+After this, `ascii-forger` works in any terminal without activating a venv.
+
+### Option B — pip *(standard)*
 
 ```bash
 pip install ascii-forger
 ```
 
-### Option B — from source *(for development)*
+> If `ascii-forger` is not found after installing via pip on Windows, see the Troubleshooting section.
+
+### Option C — from source *(development)*
 
 ```bash
 pip install -e .
@@ -181,14 +195,24 @@ ascii-forger assets/image.jpg --invert --mode color --html outputs/inverted.html
 
 ### Command Not Found
 
-If `ascii-forger` is not recognized:
+If `ascii-forger` is not recognized after `pip install`:
 
-- Ensure virtual environment is activated
-- Re-run:
+**Recommended fix** — use pipx instead:
 
 ```bash
-pip install -e .
+pip install pipx
+pipx ensurepath
+pipx install ascii-forger
 ```
+
+**Manual fix (Windows)** — add the user Scripts folder to PATH:
+
+```powershell
+$scripts = "$env:APPDATA\Python\Python313\Scripts"
+[System.Environment]::SetEnvironmentVariable("PATH", "$env:PATH;$scripts", "User")
+```
+
+Then restart your terminal.
 
 ---
 

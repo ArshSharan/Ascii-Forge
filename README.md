@@ -75,13 +75,30 @@ ascii-forge/
 
 ## Installation
 
-### From PyPI *(recommended)*
+### Recommended — `pipx` *(for CLI tools)*
+
+[pipx](https://pipx.pypa.io) installs CLI tools into isolated environments and **automatically adds the command to your PATH** — no venv activation, no PATH fiddling required.
+
+```bash
+# Install pipx if you don't have it
+pip install pipx
+pipx ensurepath
+
+# Then install ascii-forger
+pipx install ascii-forger
+```
+
+After that, `ascii-forger` works in **any terminal, anywhere on your system**.
+
+---
+
+### Alternative — `pip install`
 
 ```bash
 pip install ascii-forger
 ```
 
-This installs the `ascii-forger` command globally (or into your active environment).
+> **Note for Windows users:** If the `ascii-forger` command is not found after `pip install`, your Python `Scripts\` directory may not be on your PATH. Either use `pipx` (above) or add `%APPDATA%\Python\Python3XX\Scripts` to your system PATH manually.
 
 ---
 
