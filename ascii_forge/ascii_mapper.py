@@ -1,5 +1,6 @@
 ASCII_CHARS = "@%#*+=-:. "
 
+
 def map_pixels_to_ascii(image):
     pixels = image.getdata()
     ascii_str = ""

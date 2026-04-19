@@ -1,9 +1,9 @@
 import argparse
 import os
-from src.image_loader import load_image
-from src.processor import resize
-from src.renderer import generate_ascii
-from src.html_exporter import save_html
+from ascii_forge.image_loader import load_image
+from ascii_forge.processor import resize
+from ascii_forge.renderer import generate_ascii
+from ascii_forge.html_exporter import save_html
 
 
 def main():
@@ -17,7 +17,8 @@ Examples:
   ascii-forge image.jpg
   ascii-forge image.jpg --mode color
   ascii-forge image.jpg --width 150 --output out.txt
-  ascii-forge image.jpg --mode color --html output/art.html
+  ascii-forge image.jpg --mode color --html outputs/art.html
+  ascii-forge image.jpg --invert --html outputs/inverted.html
         """,
         formatter_class=argparse.RawTextHelpFormatter
     )
@@ -49,15 +50,15 @@ Examples:
     parser.add_argument(
         "--invert",
         action="store_true",
-        help="Invert pixel colors before rendering (photo-negative effect).\n"
+        help="Flip character density: dense chars on bright areas, sparse on dark.\n"
              "Improves contrast on light-background subjects. Works with all modes."
     )
 
     parser.add_argument(
         "--html",
         metavar="FILE",
-        help="Export colored ASCII art as a self-contained HTML file\n"
-             "(e.g., --html output/art.html). Requires --mode color."
+        help="Export ASCII art as a self-contained HTML file\n"
+             "(e.g., --html outputs/art.html)"
     )
 
     args = parser.parse_args()
@@ -65,6 +66,8 @@ Examples:
     # ── Load & resize ──────────────────────────────────────────────────────────
     image = load_image(args.image)
     image = resize(image, args.width)
+
+    image_name = os.path.basename(args.image)
 
     # ── HTML export path ───────────────────────────────────────────────────────
     if args.html:
@@ -76,13 +79,18 @@ Examples:
         if html_dir:
             os.makedirs(html_dir, exist_ok=True)
 
-        image_name = os.path.basename(args.image)
-        title = f"ASCII Forge — {image_name}"
-
-        save_html(rgb_image, args.html, title=title, invert=args.invert)
+        save_html(
+            rgb_image,
+            args.html,
+            title=image_name,
+            invert=args.invert,
+            image_name=image_name,
+            output_width=args.width,
+            mode=args.mode,
+        )
         print(f"HTML export saved to: {args.html}")
 
-        # If the user only asked for HTML, we're done — skip terminal render
+        # If the user only asked for HTML, skip terminal render
         if not args.output:
             return
 

@@ -1,4 +1,1 @@
-pillow 
-numpy 
-opencv-python
-git-filter-rep
+Pillow>=9.0

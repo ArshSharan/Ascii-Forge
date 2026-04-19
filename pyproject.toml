@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ascii-forge"
+version = "0.1.0"
+description = "Convert images into high-quality ASCII art — terminal, color, HTML export, and invert mode."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [
+    { name = "Arsh Sharan" }
+]
+keywords = ["ascii", "art", "terminal", "cli", "image", "image-processing", "ascii-art"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Multimedia :: Graphics :: Graphics Conversion",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "Pillow>=9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build>=1.0",
+    "twine>=4.0",
+]
+
+[project.scripts]
+ascii-forge = "ascii_forge.main:main"
+
+[project.urls]
+Homepage   = "https://github.com/ArshSharan/Ascii-Forge"
+Repository = "https://github.com/ArshSharan/Ascii-Forge"
+"Bug Tracker" = "https://github.com/ArshSharan/Ascii-Forge/issues"
+
+[tool.setuptools.packages.find]
+include = ["ascii_forge*"]

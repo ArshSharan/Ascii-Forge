@@ -49,19 +49,19 @@ The system follows a structured pipeline:
 ```
 ascii-forge/
 │
-├── src/
+├── ascii_forge/           # Main package
 │   ├── __init__.py
 │   ├── main.py
 │   ├── image_loader.py
 │   ├── processor.py
 │   ├── ascii_mapper.py
 │   ├── renderer.py
-│   └── html_exporter.py    # HTML export module (new)
+│   └── html_exporter.py
 │
 ├── assets/            # Local test images (ignored by Git)
 ├── outputs/           # Generated outputs (ignored by Git)
 │
-├── setup.py
+├── pyproject.toml     # Package configuration (PyPI-ready)
 ├── requirements.txt
 ├── README.md
 └── SETUP.md
@@ -96,6 +96,8 @@ Install the package in editable mode:
 ```bash
 pip install -e .
 ```
+
+> The project uses `pyproject.toml` for packaging (PEP 517/518 compliant, PyPI-ready).
 
 ---
 

@@ -54,11 +54,7 @@ Install the project in editable mode:
 pip install -e .
 ```
 
-This registers the command:
-
-```bash
-ascii-forge
-```
+This registers the `ascii-forge` command using `pyproject.toml` (PEP 517 compliant).
 
 ---
 
