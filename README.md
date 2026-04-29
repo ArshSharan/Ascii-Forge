@@ -3,6 +3,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/ascii-forger)](https://pypi.org/project/ascii-forger/)
 [![Python 3.8+](https://img.shields.io/pypi/pyversions/ascii-forger)](https://pypi.org/project/ascii-forger/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/ascii-forger?period=total&units=INTERNATIONAL_SYSTEM&left_color=black&right_color=brightgreen&left_text=downloads)](https://pepy.tech/projects/ascii-forger)
 
 ASCII Forger is a terminal-based ASCII rendering engine that converts images into high-fidelity ASCII art. It supports grayscale, color, and **braille Unicode** rendering modes and is designed as a modular, extensible command-line tool.
 

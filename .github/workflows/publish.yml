@@ -1,8 +1,8 @@
-name: Publish to PyPI
+name: Publish to PyPI & GitHub Release
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Triggers ONLY when you push a version tag, e.g.:
-#   git tag v0.2.0
+#   git tag v0.2.1
 #   git push --tags
 # ─────────────────────────────────────────────────────────────────────────────
 on:
@@ -12,36 +12,49 @@ on:
   workflow_dispatch:               # allows manual trigger from GitHub Actions UI
 
 jobs:
-  build-and-publish:
+  # ── Job 1: Build & publish to PyPI ─────────────────────────────────────────
+  pypi-publish:
     name: Build & publish to PyPI
     runs-on: ubuntu-latest
-
-    # Required for PyPI Trusted Publisher (OIDC) — no API token needed
     environment: pypi
     permissions:
       id-token: write   # OIDC token for Trusted Publisher
       contents: read
 
     steps:
-      # 1. Checkout the tagged commit
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # 3. Install build tool
       - name: Install build
         run: pip install build --quiet
 
-      # 4. Build source distribution + wheel
       - name: Build package
         run: python -m build
 
-      # 5. Publish to PyPI via Trusted Publisher (OIDC)
-      #    No secrets required — configure Trusted Publisher on pypi.org instead
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+
+  # ── Job 2: Create GitHub Release with auto-generated notes ─────────────────
+  github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: pypi-publish          # only run if PyPI publish succeeded
+    permissions:
+      contents: write            # needed to create a release
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0         # full history needed for changelog generation
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true   # auto-generates changelog from commits
+          make_latest: true
