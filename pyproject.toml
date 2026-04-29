@@ -4,15 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ascii-forger"
-version = "0.1.1"
-description = "Convert images into high-quality ASCII art — terminal, color, HTML export, and invert mode."
+version = "0.2.0"
+description = "Convert images into ASCII art — terminal, color, braille Unicode, HTML export, and invert mode."
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
 authors = [
     { name = "Arsh Sharan" }
 ]
-keywords = ["ascii", "art", "terminal", "cli", "image", "image-processing", "ascii-art"]
+keywords = ["ascii", "art", "terminal", "cli", "image", "image-processing", "ascii-art", "braille", "unicode"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3",

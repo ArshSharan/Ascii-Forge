@@ -32,7 +32,7 @@ def generate_html(
                       Original pixel colors are always preserved.
         image_name:   Source filename, displayed in the metadata bar.
         output_width: Width used for generation, displayed in the metadata bar.
-        mode:         Rendering mode label ('gray' or 'color').
+        mode:         Rendering mode label ('gray', 'color', 'braille', 'braille-color').
 
     Returns:
         A complete, self-contained HTML string ready to write to a .html file.
@@ -69,7 +69,12 @@ def generate_html(
 
     # ── Metadata badge values ─────────────────────────────────────────────────
     safe_image_name = html_lib.escape(image_name) if image_name else "image"
-    mode_label      = "color" if mode == "color" else "grayscale"
+    mode_label      = {
+        "gray": "grayscale",
+        "color": "color",
+        "braille": "braille",
+        "braille-color": "braille · color",
+    }.get(mode, mode)
     invert_badge    = '<span class="badge badge-invert">&#8644; inverted</span>' if invert else ""
     year            = datetime.datetime.now().year
     escaped_title   = html_lib.escape(title)
@@ -192,7 +197,11 @@ def generate_html(
     .ascii-canvas {{
       display: block;
       line-height: 1.2;
-      font-family: 'Fira Code', 'Courier New', Courier, monospace;
+      font-family: 'Fira Code', 'Courier New', Courier,
+                   'Segoe UI Symbol',    /* Windows — braille + symbols */
+                   'Noto Sans Mono',     /* Linux/Android — broad Unicode */
+                   'Apple Symbols',      /* macOS fallback */
+                   monospace;
       font-size: 9.5px;
       font-weight: 300;
       letter-spacing: 0.035em;
@@ -275,7 +284,7 @@ def save_html(
         invert:       When True, inverts the character density mapping.
         image_name:   Source filename shown in the metadata bar.
         output_width: Output width (chars) shown in the metadata bar.
-        mode:         Rendering mode ('gray' or 'color') shown in the metadata bar.
+        mode:         Rendering mode ('gray', 'color', 'braille', 'braille-color') shown in the metadata bar.
     """
     html_content = generate_html(
         image,
