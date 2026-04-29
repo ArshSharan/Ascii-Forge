@@ -94,6 +94,12 @@ pipx install ascii-forger
 
 After that, `ascii-forger` works in **any terminal, anywhere on your system**.
 
+**Upgrade to a new version:**
+
+```bash
+pipx upgrade ascii-forger
+```
+
 ---
 
 ### Alternative — `pip install`
@@ -103,6 +109,12 @@ pip install ascii-forger
 ```
 
 > **Note for Windows users:** If the `ascii-forger` command is not found after `pip install`, your Python `Scripts\` directory may not be on your PATH. Either use `pipx` (above) or add `%APPDATA%\Python\Python3XX\Scripts` to your system PATH manually.
+
+**Upgrade to a new version:**
+
+```bash
+pip install --upgrade ascii-forger
+```
 
 ---
 
@@ -270,7 +282,8 @@ Braille mode (`--mode braille` / `--mode braille-color`) uses Unicode characters
 - Custom character set support (`--chars`) for power users
 - Edge detection mode for sharper, outline-style ASCII output
 - Python importable API (`from ascii_forge import to_ascii, to_braille`)
-- GIF → Animated HTML export
+- GIF → Animated HTML export (play ASCII art in any browser)
+- Image export — save ASCII art directly as a PNG, JPEG, or SVG file
 - Performance optimizations using NumPy vectorization
 
 ---

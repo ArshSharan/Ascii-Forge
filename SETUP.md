@@ -60,6 +60,12 @@ pipx install ascii-forger
 
 After this, `ascii-forger` works in any terminal without activating a venv.
 
+**To upgrade to a new version:**
+
+```bash
+pipx upgrade ascii-forger
+```
+
 ### Option B — pip *(standard)*
 
 ```bash
@@ -67,6 +73,12 @@ pip install ascii-forger
 ```
 
 > If `ascii-forger` is not found after installing via pip on Windows, see the Troubleshooting section.
+
+**To upgrade to a new version:**
+
+```bash
+pip install --upgrade ascii-forger
+```
 
 ### Option C — from source *(development)*
 

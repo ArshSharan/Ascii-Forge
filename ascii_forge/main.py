@@ -81,7 +81,14 @@ Examples:
 
     # ── Load & resize ──────────────────────────────────────────────────────────
     image = load_image(args.image)
-    image = resize(image, args.width)
+
+    # Braille: each char covers 2×4 pixels, so we need 2× the pixel width to
+    # honour --width as output chars. factor=1.0 because the 2×4 block structure
+    # already compensates for terminal char aspect ratio (no extra 0.5 needed).
+    if args.mode in ("braille", "braille-color"):
+        image = resize(image, args.width * 2, factor=1.0)
+    else:
+        image = resize(image, args.width)
 
     image_name = os.path.basename(args.image)
 

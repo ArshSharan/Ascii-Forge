@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ascii-forger"
-version = "0.2.0"
+version = "0.2.1"
 description = "Convert images into ASCII art — terminal, color, braille Unicode, HTML export, and invert mode."
 readme = "README.md"
 requires-python = ">=3.8"
