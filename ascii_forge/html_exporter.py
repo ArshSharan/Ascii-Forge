@@ -2,13 +2,14 @@ import html as html_lib
 import datetime
 
 
-ASCII_CHARS = "@%#*+=-:. "
+DEFAULT_ASCII_CHARS = "@%#*+=-:. "
 
 
-def _pixel_to_char(gray: int) -> str:
+def _pixel_to_char(gray: int, chars: str = DEFAULT_ASCII_CHARS) -> str:
     """Map a 0-255 grayscale intensity to an ASCII character."""
-    index = int(gray / 255 * (len(ASCII_CHARS) - 1))
-    return ASCII_CHARS[index]
+    ramp = chars if chars else DEFAULT_ASCII_CHARS
+    index = int(gray / 255 * (len(ramp) - 1))
+    return ramp[index]
 
 
 def generate_html(
@@ -18,6 +19,7 @@ def generate_html(
     image_name: str = "",
     output_width: int = 100,
     mode: str = "color",
+    chars: str = DEFAULT_ASCII_CHARS,
 ) -> str:
     """
     Convert a PIL image into a self-contained HTML string.
@@ -33,6 +35,7 @@ def generate_html(
         image_name:   Source filename, displayed in the metadata bar.
         output_width: Width used for generation, displayed in the metadata bar.
         mode:         Rendering mode label ('gray', 'color', 'braille', 'braille-color').
+        chars:        Character ramp (dense → sparse). Defaults to built-in ramp.
 
     Returns:
         A complete, self-contained HTML string ready to write to a .html file.
@@ -59,7 +62,7 @@ def generate_html(
             if invert:
                 gray = 255 - gray
 
-            char = _pixel_to_char(gray)
+            char = _pixel_to_char(gray, chars=chars)
             safe_char = html_lib.escape(char) if char != " " else "&nbsp;"
             row_spans.append(f'<span style="color:rgb({r},{g},{b})">{safe_char}</span>')
 
@@ -273,6 +276,7 @@ def save_html(
     image_name: str = "",
     output_width: int = 100,
     mode: str = "color",
+    chars: str = DEFAULT_ASCII_CHARS,
 ) -> None:
     """
     Generate and write an HTML ASCII art file to disk.
@@ -285,6 +289,7 @@ def save_html(
         image_name:   Source filename shown in the metadata bar.
         output_width: Output width (chars) shown in the metadata bar.
         mode:         Rendering mode ('gray', 'color', 'braille', 'braille-color') shown in the metadata bar.
+        chars:        Character ramp (dense → sparse). Defaults to built-in ramp.
     """
     html_content = generate_html(
         image,
@@ -293,6 +298,7 @@ def save_html(
         image_name=image_name,
         output_width=output_width,
         mode=mode,
+        chars=chars,
     )
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html_content)

@@ -176,6 +176,52 @@ ascii-forger assets/image.jpg --invert --mode color --html outputs/inverted.html
 
 ---
 
+### Custom Character Ramp
+
+Override the default character density ramp with your own string (dense → sparse):
+
+```bash
+ascii-forger assets/image.jpg --chars "@#+-. "
+```
+
+Block characters work great too:
+
+```bash
+ascii-forger assets/image.jpg --chars "█▓▒░ " --html outputs/blocks.html
+```
+
+> Note: `--chars` is silently ignored in `braille` / `braille-color` modes. A small notice is printed to stderr.
+
+---
+
+### Export as Image (PNG / JPEG / SVG)
+
+Save ASCII art as a PNG file:
+
+```bash
+ascii-forger assets/image.jpg --export outputs/art.png
+```
+
+Save as JPEG:
+
+```bash
+ascii-forger assets/image.jpg --export outputs/art.jpg
+```
+
+Save as a scalable SVG:
+
+```bash
+ascii-forger assets/image.jpg --export outputs/art.svg
+```
+
+All three can be combined with `--html` in one command:
+
+```bash
+ascii-forger assets/image.jpg --mode color --width 120 --chars "@#+-. " --html outputs/art.html --export outputs/art.png
+```
+
+---
+
 ## 7. Understanding Output
 
 ### Grayscale Mode
@@ -200,6 +246,22 @@ ascii-forger assets/image.jpg --invert --mode color --html outputs/inverted.html
 - Inverted: bright pixel → dense char (`@`), dark pixel → sparse char (` `)
 - Best used when the subject is darker than the background (e.g. portrait on white)
 - Compatible with all modes: `gray`, `color`, and `--html`
+
+### Custom Ramp (`--chars`)
+- Provide any non-empty string ordered **dense → sparse**
+- The built-in default is `"@%#*+=-:. "`
+- Shorter ramps produce less tonal gradation; longer ramps produce more
+- Applies to gray, color, HTML export, and image export modes
+- Braille modes ignore this flag and print a notice to stderr
+
+### Image Export (`--export`)
+- Saves the ASCII art as a true image file
+- `.png` — lossless raster via Pillow `ImageDraw`
+- `.jpg` / `.jpeg` — JPEG quality 95 via Pillow `ImageDraw`
+- `.svg` — scalable vector, infinitely zoomable, pure Python
+- Output directories are created automatically
+- Respects `--chars` and `--invert`
+- No additional dependencies (Pillow already required)
 
 ---
 

@@ -17,6 +17,8 @@ The project focuses on bridging image processing concepts with terminal renderin
 - Grayscale and color rendering modes
 - **Braille Unicode mode** — 4× effective resolution using Unicode dot-matrix characters (`⣿⠿⡇`)
 - **HTML export** — save colored ASCII art as a self-contained `.html` file, viewable in any browser
+- **Image export** — save ASCII art as a **PNG**, **JPEG**, or **SVG** file (`--export`)
+- **Custom character ramp** — override the default density characters with any string (`--chars`)
 - **Invert mode** — flip pixel colors for a photo-negative effect, ideal for light-background subjects
 - Adjustable output width for resolution control
 - File output support (plain text / ANSI)
@@ -65,6 +67,7 @@ ascii-forge/
 │   ├── ascii_mapper.py
 │   ├── renderer.py
 │   ├── html_exporter.py
+│   ├── image_exporter.py  # PNG / JPEG / SVG export (new in v0.3.0)
 │   └── braille_mapper.py  # Braille Unicode renderer (new in v0.2.0)
 │
 ├── assets/            # Local test images (ignored by Git)
@@ -219,6 +222,42 @@ Braille + invert + HTML export:
 ascii-forger path/to/image.jpg --mode braille --invert --html outputs/braille.html
 ```
 
+Custom character ramp:
+
+```bash
+ascii-forger path/to/image.jpg --chars "@#+-. "
+```
+
+Custom ramp with HTML export:
+
+```bash
+ascii-forger path/to/image.jpg --chars "█▓▒░ " --html outputs/blocks.html
+```
+
+Export as PNG image:
+
+```bash
+ascii-forger path/to/image.jpg --export outputs/art.png
+```
+
+Export as JPEG image:
+
+```bash
+ascii-forger path/to/image.jpg --export outputs/art.jpg
+```
+
+Export as SVG (scalable vector):
+
+```bash
+ascii-forger path/to/image.jpg --export outputs/art.svg
+```
+
+Full combo — terminal + HTML + PNG in one shot:
+
+```bash
+ascii-forger path/to/image.jpg --mode color --width 120 --chars "@#+-. " --html outputs/art.html --export outputs/art.png
+```
+
 ---
 
 ## Command-Line Arguments
@@ -230,6 +269,8 @@ ascii-forger path/to/image.jpg --mode braille --invert --html outputs/braille.ht
 | `--width`  | Output width in characters                                                                          | `100`    |
 | `--output` | File path to save plain-text / ANSI output                                                          | None     |
 | `--html`   | File path to save a self-contained HTML export (e.g. `outputs/art.html`)                           | None     |
+| `--chars`  | Custom character ramp string, ordered dense → sparse (e.g. `"@#+-. "`). Ignored in braille modes.  | Built-in |
+| `--export` | File path for image export — format from extension: `.png`, `.jpg`/`.jpeg`, `.svg`                  | None     |
 | `--invert` | Invert pixel colors before rendering (photo-negative). Works with all modes.                        | Off      |
 
 ---
@@ -269,6 +310,28 @@ Braille mode (`--mode braille` / `--mode braille-color`) uses Unicode characters
 - `braille-color` — same dot mapping but each character is ANSI-colored with the average RGB of its 2×4 block
 - `--invert` flips the threshold so dark pixels become lit dots (useful for dark subjects on light backgrounds)
 - `--html` exports a braille HTML file; the browser font stack includes `Segoe UI Symbol` (Windows), `Noto Sans Mono` (Linux), and `Apple Symbols` (macOS) to guarantee correct rendering
+- `--chars` is **not applicable** in braille modes (braille maps pixels to dot patterns, not characters). A notice is printed and the flag is silently ignored.
+
+---
+
+## Notes on Custom Chars (`--chars`)
+
+- Provide any non-empty string ordered **dense → sparse** (e.g., `"@#+-. "` or `"█▓▒░ "`)
+- The built-in default ramp is `"@%#*+=-:. "`
+- Applies to `gray`, `color`, `--html`, and `--export` modes
+- Braille modes print a notice and ignore the flag
+- Shorter ramps reduce tonal gradation; longer ramps increase it
+
+## Notes on Image Export (`--export`)
+
+- Format is inferred from the file extension:
+  - `.png` — lossless raster (Pillow `ImageDraw`)
+  - `.jpg` / `.jpeg` — JPEG at quality 95 (Pillow `ImageDraw`)
+  - `.svg` — scalable vector, pure-Python string generation — infinitely zoomable
+- Output uses the same resized image as the terminal render, painted character-by-character with true RGB colors on a black canvas
+- Output directories are created automatically if they don't exist
+- `--chars` and `--invert` both apply to image export
+- No additional dependencies beyond the already-required **Pillow**
 
 ---
 
@@ -280,11 +343,9 @@ Braille mode (`--mode braille` / `--mode braille-color`) uses Unicode characters
 
 ## Future Enhancements
 
-- Custom character set support (`--chars`) for power users
 - Edge detection mode for sharper, outline-style ASCII output
 - Python importable API (`from ascii_forge import to_ascii, to_braille`)
 - GIF → Animated HTML export (play ASCII art in any browser)
-- Image export — save ASCII art directly as a PNG, JPEG, or SVG file
 - Performance optimizations using NumPy vectorization
 
 ---

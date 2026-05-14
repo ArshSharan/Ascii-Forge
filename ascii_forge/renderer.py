@@ -1,4 +1,7 @@
-def generate_ascii(image, colored=False, invert=False):
+DEFAULT_ASCII_CHARS = "@%#*+=-:. "
+
+
+def generate_ascii(image, colored=False, invert=False, chars: str = DEFAULT_ASCII_CHARS):
     """
     Convert a PIL image into an ASCII string.
 
@@ -7,6 +10,8 @@ def generate_ascii(image, colored=False, invert=False):
         colored: If True, wraps each char in ANSI escape codes using RGB pixel color.
         invert:  If True, flips the grayscale value used for character selection
                  (dense chars on bright areas, sparse on dark). Display colors unchanged.
+        chars:   Character ramp string ordered dense → sparse.
+                 Defaults to the built-in ramp.
 
     Returns:
         A multi-line string of ASCII characters ready to print.
@@ -14,7 +19,7 @@ def generate_ascii(image, colored=False, invert=False):
     pixels = list(image.getdata())
     width = image.width
 
-    ASCII_CHARS = "@%#*+=-:. "
+    ramp = chars if chars else DEFAULT_ASCII_CHARS
     ascii_img = ""
 
     for i in range(0, len(pixels), width):
@@ -31,8 +36,8 @@ def generate_ascii(image, colored=False, invert=False):
             if invert:
                 gray = 255 - gray
 
-            index = int(gray / 255 * (len(ASCII_CHARS) - 1))
-            char = ASCII_CHARS[index]
+            index = int(gray / 255 * (len(ramp) - 1))
+            char = ramp[index]
 
             if colored:
                 ascii_img += f"\033[38;2;{r};{g};{b}m{char}\033[0m"

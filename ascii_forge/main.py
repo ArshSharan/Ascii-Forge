@@ -6,6 +6,7 @@ from ascii_forge.processor import resize, invert_colors
 from ascii_forge.renderer import generate_ascii
 from ascii_forge.html_exporter import save_html
 from ascii_forge.braille_mapper import image_to_braille, image_to_braille_color
+from ascii_forge.image_exporter import save_image
 
 # Ensure Unicode (braille) characters print correctly on Windows terminals
 if hasattr(sys.stdout, "reconfigure"):
@@ -29,6 +30,9 @@ Examples:
   ascii-forger image.jpg --mode color --html outputs/art.html
   ascii-forger image.jpg --mode braille --html outputs/braille.html
   ascii-forger image.jpg --invert --html outputs/inverted.html
+  ascii-forger image.jpg --chars "@#+-. " --html outputs/custom.html
+  ascii-forger image.jpg --export outputs/art.png
+  ascii-forger image.jpg --export outputs/art.svg
         """,
         formatter_class=argparse.RawTextHelpFormatter
     )
@@ -77,7 +81,42 @@ Examples:
              "(e.g., --html outputs/art.html)"
     )
 
+    parser.add_argument(
+        "--chars",
+        metavar="RAMP",
+        default=None,
+        help=(
+            "Custom character ramp, ordered dense → sparse\n"
+            "(e.g., --chars \"@#+-. \").\n"
+            "Applies to gray, color, and --html modes.\n"
+            "Ignored in braille / braille-color modes."
+        )
+    )
+
+    parser.add_argument(
+        "--export",
+        metavar="FILE",
+        help=(
+            "Export ASCII art as an image file.\n"
+            "Format is inferred from the extension:\n"
+            "  .png          — lossless raster\n"
+            "  .jpg / .jpeg  — JPEG (quality 95)\n"
+            "  .svg          — scalable vector\n"
+            "(e.g., --export outputs/art.png)"
+        )
+    )
+
     args = parser.parse_args()
+
+    # ── --chars notice for braille modes ──────────────────────────────────────
+    if args.chars and args.mode in ("braille", "braille-color"):
+        print(
+            "Note: --chars is not applicable in braille / braille-color mode "
+            "(braille maps pixels to dot patterns, not characters). "
+            "The custom ramp will be ignored.",
+            file=sys.stderr,
+        )
+        args.chars = None  # treat as unset for the rest of the run
 
     # ── Load & resize ──────────────────────────────────────────────────────────
     image = load_image(args.image)
@@ -96,6 +135,9 @@ Examples:
     if args.invert:
         image = invert_colors(image)
 
+    # Resolve effective character ramp (None → exporter defaults kick in)
+    effective_chars = args.chars  # None → each module falls back to its default
+
     # ── HTML export ──────────────────────────────────────────────────────────
     if args.html:
         rgb_image = image.convert("RGB")
@@ -111,17 +153,35 @@ Examples:
             image_name=image_name,
             output_width=args.width,
             mode=args.mode,
+            chars=effective_chars,
         )
         print(f"HTML export saved to: {args.html}")
+
+        if not args.output and not args.export:
+            return
+
+    # ── Image export (PNG / JPEG / SVG) ──────────────────────────────────────
+    if args.export:
+        save_image(
+            image,
+            args.export,
+            chars=effective_chars,
+            invert=args.invert,
+        )
+        print(f"Image export saved to: {args.export}")
 
         if not args.output:
             return
 
     # ── Terminal render ──────────────────────────────────────────────────────────
     if args.mode == "gray":
-        ascii_img = generate_ascii(image.convert("L"), colored=False, invert=False)
+        ascii_img = generate_ascii(
+            image.convert("L"), colored=False, invert=False, chars=effective_chars
+        )
     elif args.mode == "color":
-        ascii_img = generate_ascii(image, colored=True, invert=False)
+        ascii_img = generate_ascii(
+            image, colored=True, invert=False, chars=effective_chars
+        )
     elif args.mode == "braille":
         ascii_img = image_to_braille(image, invert=False)
     else:  # braille-color
